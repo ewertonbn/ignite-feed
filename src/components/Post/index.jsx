@@ -7,7 +7,8 @@ import { Comment } from "../Comment";
 import { CommentForm, PostContainer } from "./styles";
 
 export function Post({ author, content, publishedAt }) {
-  const [comments, setComments] = useState([1, 2]);
+  const [comments, setComments] = useState(['Post muito bacana, hein?']);
+  const [newCommentText, setNewCommentText] = useState('');
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
@@ -21,7 +22,20 @@ export function Post({ author, content, publishedAt }) {
   function handleCreateNewComment() {
     event.preventDefault();
 
-    setComments([...comments, comments.length + 1]);
+    setComments([...comments, newCommentText]);
+    setNewCommentText('');
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeleteOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    })
+
+    setComments(commentsWithoutDeleteOne);
   }
 
   return(
@@ -43,9 +57,9 @@ export function Post({ author, content, publishedAt }) {
       <div className="content">
         {content.map(item => {
           if (item.type === 'paragraph') {
-            return <p>{item.content}</p>
+            return <p key={item.content}>{item.content}</p>
           } else if (item.type === 'link') {
-            return <p><a href="#">{item.content}</a></p>
+            return <p key={item.content}><a href="#">{item.content}</a></p>
           }
         })}
       </div>
@@ -54,7 +68,10 @@ export function Post({ author, content, publishedAt }) {
         <strong>Deixe seu feedback</strong>
         
         <textarea 
+          name="comment"
           placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
         />
 
         <footer>
@@ -64,7 +81,13 @@ export function Post({ author, content, publishedAt }) {
 
       <div className="commentList">
         {comments.map(comment => {
-          return <Comment />
+          return (
+            <Comment 
+              key={comment} 
+              content={comment} 
+              onDeleteComment={deleteComment} 
+            />
+          )
         })}
       </div>
     </PostContainer>
