@@ -36,7 +36,7 @@
   Ignite Feed is an application that simulates the functioning of a social network feed, for example, in this case, aimed at developers.
 </p>
 
-Application link: <a href="https://ignitefeed-ts.vercel.app/" target="_blank">https://ignitefeed-ts.vercel.app/</a>
+Application link: <a href="https://ignite-feed-application.vercel.app/" target="_blank">https://ignite-feed-application.vercel.app/</a>
 
 <p align="center">
   <img src="./public/screenshots/feed.png" />
